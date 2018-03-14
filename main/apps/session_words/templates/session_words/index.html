@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Session Words</title>
+        {% load static %}
+        <link rel="stylesheet" types="text/css" href="{% static "session_words/style.css" %}">
+    </head>
+    <body>
+        <div id="container">
+            <form class='wGenerator' action='/add/word' method="POST">
+                {% csrf_token %}
+                <label for='word'>Add a new word
+                    <input type="text" name='word'>
+                </label>
+                <br>
+                <p>Choose a color</p>
+                <label for="color">
+                    <input type="radio" name='color' value="red"> Red
+                </label>
+                <br>
+                <label for="color">
+                    <input type="radio" name='color' value="green"> Green
+                </label>
+                <br>
+                <label for="color">
+                    <input type="radio" name='color' value="blue"> Blue
+                </label>
+                <br>
+                <label for="size">
+                    <input type="checkbox" name='size' value="big"> show in BIG fonts!
+                </label>
+                <br>
+                <br>
+                <input class='btn' type="submit" value="Add to Session">
+            </form>
+            <div class="right">
+                <form class='cSession' action='/clear', method='POST'>
+                    {% csrf_token %}
+                    <input type="submit" value="Clear Session">
+                </form>
+                <div class="display">
+                    {% for i in wordLog %}
+                        <p class='{{ i.color }} {{ i.size }}'>{{ i.word }} {{ i.time }}</p>
+                    {% endfor %}  
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
